@@ -1,12 +1,9 @@
 <?php
-$accessToken = "EAAEvKnvwHXgBAG5kuxYMnqOT0EoPmHzDXtZBzshA1YhwayKrIdGDcx20aMG4ZBYLL6FEPnpsh8iT1C12kACQFsxJ6y0iSmyvldk51GFhTYltqcTcUhngbHj1YoZCETn5RCOA3KrawvjwdCEyxt4eulZAUVBZAVrOwq5zo324hzAZDZD";  // PLACE YOUR FANPAGE'S ACCESS TOKEN HERE
+$accessToken = "EAAEvKnvwHXgBAGVV8PFySX1c0t9FKj6gMVTsve5FyYC7GBV21eQvZBmyHpXUg5Iy9dXyIxdu8FE4P6oxfDtgYICb3Rxe7ARYxJjZAHXYcaDNE499mbD7UxpjILTt9qiNg2kcWVOthshwMAG6A3hmr1kTMwVbiSCetrDS0e2wZDZD";  // PLACE YOUR FANPAGE'S ACCESS TOKEN HERE
 
-$DBHOST = getenv('DBHOST'); // Set your database host here
-$DBUSER = getenv('DBUSER'); // Set your database user here
-$DBNAME = getenv('DBNAME'); // Set your database name here
-$DBPW =  getenv('DBPASS'); // Set your database password here
 
-$conn = mysqli_connect($DBHOST, $DBUSER, $DBPW, $DBNAME); // kết nối data
+$conn = new mysqli('otwsl2e23jrxcqvx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com','u3zuylg51m7x01eu','a6xhckoto8haoj3s','qnymtzcf5hep13df');
 if (!$conn) {
 	die("Cannot establish connection to database.");
 }
+?>
