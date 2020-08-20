@@ -3,7 +3,7 @@ $choice = $payload['choice'];
 if($choice == "cancel_find_friend" ){
 	$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
-	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = 0");
+	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` IS NULL");
 } else if ($choice == "quit_conversation"){
 	$pairQuery = $conn->query("SELECT * FROM `pairs` WHERE `id` = {$user['joined_pair']}");
 		if ($pairQuery && $pairQuery->num_rows == 1) {
@@ -14,7 +14,7 @@ if($choice == "cancel_find_friend" ){
 	$bot->sendTextMessage($otherParticipant, "💔 Người lạ đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
-	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = 0");
+	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` IS NULL");
 } else {
 	$gioitinh = $choice == "option_nam" ? "male" : "female";
 	$userGen = $bot->getGender($userId);
