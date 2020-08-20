@@ -30,8 +30,8 @@ if ($checkUserQuery->num_rows == 0) {
 	if ($addUserQuery) {
 		// first message when user come to chatbot 
 		$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
-			"event" => "main_menu",
-			"choice" => "find_friend"
+			"event" => "static_menu",
+			"choice" => "show_menu"
 		)));
 		$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút Tâm sự bên dưới để ghép cặp", [
 		$firstButton,
@@ -70,7 +70,7 @@ if ($bot->isPostBack) {
 		$bot->sendTextMessage($otherParticipant, "💔 Người lạ đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
-		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = 0");
+		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` IS NULL");
 	} 
 }
 if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự'){
@@ -83,6 +83,17 @@ if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự
 	]);
 		$bot->sendMessage($userId, $menu);
 }
+?>
+
+
+
+
+
+
+
+
+
+
 
 
 
