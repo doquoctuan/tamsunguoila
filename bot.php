@@ -3,11 +3,6 @@ include "ChatFramework/dist/ChatFramework.php";
 include "ChatFramework/dist/MessageBuilder.php";
 include "config.php";
 
-$conn = new mysqli('otwsl2e23jrxcqvx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com','u3zuylg51m7x01eu','a6xhckoto8haoj3s','qnymtzcf5hep13df');
-if (!$conn) {
-	die("Cannot establish connection to database.");
-}
-
 header("Content-type: text/html; charset=utf-8");
 mysqli_set_charset($conn, 'UTF8');
 
@@ -66,17 +61,21 @@ if ($bot->isPostBack) {
 			$pair = $pairQuery->fetch_assoc();
 			$otherParticipant = $pair['p1'] == $userId ? $pair['p2'] : $pair['p1'];		
 		}
-	} else if ($user['state'] == '1' && $bot->getMessageText() !== 'end'){
-		$bot->sendTextMessage($userId, "❗ Bạn đang trong hàng chờ tìm kiếm, vui lòng đợi. Gõ 'end' để thoát hàng chờ.");
-	}	
-	if($bot->getMessageText() !== 'end'){
+	} else if ($user['state'] == '1' && $bot->getMessageText() != 'End'){
+		$bot->sendTextMessage($userId, "❗ Bạn đang trong hàng chờ tìm kiếm, vui lòng đợi. Gõ 'End' để thoát hàng chờ.");	
+	} else if ($user['state'] == '1' && $bot->getMessageText() == 'End'){
+		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
+		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
+		$bot->sendTextMessage($userId, "💔 Bạn đã thoát hàng chờ. Gõ 'tâm sự' để bắt đầu ghép cặp.");
+	}
+	if($bot->getMessageText() != 'End'){
 		$bot->sendTextMessage($otherParticipant, $bot->getMessageText());
-	} else if ($bot->getMessageText() == 'end' && $user['state'] !== '0') {
+	} else if ($user['state'] == '2' && $bot->getMessageText() == 'End'){
 		$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 		$bot->sendTextMessage($otherParticipant, "💔 Người lạ đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
-		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` IS NULL");
+		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
 	} 
 }
 if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự'){
@@ -90,17 +89,6 @@ if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự
 		$bot->sendMessage($userId, $menu);
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
