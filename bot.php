@@ -30,13 +30,12 @@ if ($checkUserQuery->num_rows == 0) {
 	}
 	if ($addUserQuery) {
 		// first message when user come to chatbot 
-// 		$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
-// 			"event" => "static_menu",
-// 			"choice" => "show_menu"
-// 		)));
-// 		$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút Tâm sự bên dưới để ghép cặp", [
-// 		$firstButton,
-		$bot->sendTextMessage($userId, "hello Mrs " . $userInfo['name'] . ", have a nice day!");		
+		$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
+			"event" => "static_menu",
+			"choice" => "show_menu"
+		)));
+		$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút Tâm sự bên dưới để ghép cặp", [
+		$firstButton,
 	]);
 			$bot->sendMessage($userId, $menu);
 	} else {
