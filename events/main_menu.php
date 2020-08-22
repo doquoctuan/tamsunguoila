@@ -1,5 +1,12 @@
 <?php
 $choice = $payload['choice'];
+if($choice == "option_nam"){
+	$conn->query("UPDATE `users` SET `genpairs`= 1  WHERE `mess_id` = '$userId'");
+} else if ($choice == "option_nu"){
+	$conn->query("UPDATE `users` SET `genpairs`= 0 WHERE `mess_id` = '$userId'");
+} else {
+	
+}
 if($choice == "cancel_find_friend" ){
 	$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
@@ -16,15 +23,7 @@ if($choice == "cancel_find_friend" ){
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
 	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
 } else {
-	if($choice == "option_nam"){
-		$conn->query("UPDATE `users` SET `genpairs`= true  WHERE `mess_id` = '$userId'");
-		$gioitinh = "male";
-	} else {
-		$conn->query("UPDATE `users` SET `genpairs`= false WHERE `mess_id` = '$userId'");
-		$gioitinh = "female";
-	}
-	$userGen = $bot->getGender($userId);
-	if($userGen['gender'] == $gioitinh){
+	if($user['gender'] == $user['genpairs']){
 		$checkingQueryNam = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
 AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
 		if(!$checkingQueryNam){
@@ -62,7 +61,7 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 				// create new pair
 			if ($conn->query("INSERT INTO `pairs` (`p1`) VALUE ('$userId')")) {
 				$pairId = $conn->insert_id;
-				$bot->sendTextMessage($userId, "🕹 Searching");
+				$bot->sendTextMessage($userId, "🕹 Đang tìm kiếm đối tượng");
 				$conn->query("UPDATE `users` SET `state`='1', `joined_pair`=$pairId WHERE `mess_id` = '$userId'");
 			} else {
 				// failed to create new pair
@@ -71,10 +70,10 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 				$pair = $checkingQueryKhac->fetch_assoc();				
 				$oldParticipant = $pair['p1'];
 				if ($conn->query("UPDATE `pairs` SET `p1` = '$oldParticipant', `p2` = '$userId' WHERE `id` = '{$pair['id']}'")) {
-				$bot->sendTextMessage($userId, "💌 Successfully paired with a female friend");
+				$bot->sendTextMessage($userId, "💌 Ghép thành công! Bắt đầu thả thính đi nào");
 				$conn->query("UPDATE `users` SET `state`='2', `joined_pair`={$pair['id']} WHERE `mess_id` = '$userId'");
 				$conn->query("UPDATE `users` SET `state`='2' WHERE `mess_id` = '$oldParticipant'");
-				$bot->sendTextMessage($oldParticipant, "💌 Successfully paired with a female friend");
+				$bot->sendTextMessage($oldParticipant, "💌 Ghép thành công! Bắt đầu thả thính đi nào");
 				} 		
 			}
 		}
