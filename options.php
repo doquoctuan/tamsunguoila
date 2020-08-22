@@ -1,5 +1,6 @@
 <?php
-include "ChatFramework/autoload.php";
+include "ChatFramework/dist/ChatFramework.php";
+include "ChatFramework/dist/MessageBuilder.php";
 include "config.php";
 
 $bot = new \NorthStudio\ChatFramework($accessToken, $isHubChallenge);
