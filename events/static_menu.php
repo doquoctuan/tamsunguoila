@@ -3,11 +3,11 @@ $choice = $payload['choice'];
 if ($choice == "show_menu") {
 	if ($user['state'] == 0) {
 		// currently have no action
-				$firstButton = $builder->createButton("postback", "👨 Nam", json_encode(array(
+				$firstButton = $builder->createButton("postback", "👨 Male", json_encode(array(
 		"event" => "main_menu",
 		"choice" => "option_nam"
 		)));
-		$secondButton = $builder->createButton("postback", "👩 Nữ", json_encode(array(
+		$secondButton = $builder->createButton("postback", "👩 Female", json_encode(array(
 		"event" => "main_menu",
 		"choice" => "option_nu"
 		)));
