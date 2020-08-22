@@ -29,7 +29,10 @@ if ($checkUserQuery->num_rows == 0) {
 		$conn->query("UPDATE `users` SET `gender`= 1 WHERE `mess_id` = '$userId'");
 	}
 	if ($addUserQuery) {
-		$bot->sendTextMessage($userId, "Hello Mrs");
+		$bot->sendTextMessage(
+    $userId,
+    "Hello Mrs " . $userInfo['name'] . ", have a nice day!"
+);
 	} else {
 		$bot->sendTextMessage($userId, "Hệ thống bận! Hãy thử lại sau");
 	}
