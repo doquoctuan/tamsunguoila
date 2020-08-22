@@ -29,15 +29,10 @@ if ($checkUserQuery->num_rows == 0) {
 		$conn->query("UPDATE `users` SET `gender`= 1 WHERE `mess_id` = '$userId'");
 	}
 	if ($addUserQuery) {
-		// first message when user come to chatbot 
-		$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
-			"event" => "static_menu",
-			"choice" => "show_menu"
-		)));
-		$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút Tâm sự bên dưới để ghép cặp", [
-		$firstButton,
-	]);
-			$bot->sendMessage($userId, $menu);
+		$bot->sendTextMessage(
+    $userId,
+    "Hello Mrs " . $userInfo['name'] . ", have a nice day!"
+);
 	} else {
 		$bot->sendTextMessage($userId, "Hệ thống bận! Hãy thử lại sau");
 	}
