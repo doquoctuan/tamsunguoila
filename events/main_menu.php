@@ -1,7 +1,7 @@
 <?php
 $choice = $payload['choice'];
 if($choice == "option_nam"){
-	$conn->query("UPDATE `users` SET `genpairs`= 1  WHERE `mess_id` = '$userId'");
+	$conn->query("UPDATE `users` SET `genpairs`= 1 WHERE `mess_id` = '$userId'");
 } else if ($choice == "option_nu"){
 	$conn->query("UPDATE `users` SET `genpairs`= 0 WHERE `mess_id` = '$userId'");
 } else {
