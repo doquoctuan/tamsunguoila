@@ -22,8 +22,9 @@ if($choice == "cancel_find_friend" ){
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
 	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
-} else {
+} else if ($choice == "option_nam" || $choice == "option_nu"){
 	if($user['gender'] == $user['genpairs']){
+		$bot->sendTextMessage($userId, "🕹 Đang tìm giới tính giống bạn!");
 		$checkingQueryNam = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
 AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
 		if(!$checkingQueryNam){
@@ -78,6 +79,8 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 			}
 		}
 	}
+	
+} else {
 	
 }	
 
