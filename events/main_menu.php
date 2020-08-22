@@ -62,7 +62,7 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 				// create new pair
 			if ($conn->query("INSERT INTO `pairs` (`p1`) VALUE ('$userId')")) {
 				$pairId = $conn->insert_id;
-				$bot->sendTextMessage($userId, "🕹 Đang tìm kiếm đối tượng");
+				$bot->sendTextMessage($userId, "🕹 Searching");
 				$conn->query("UPDATE `users` SET `state`='1', `joined_pair`=$pairId WHERE `mess_id` = '$userId'");
 			} else {
 				// failed to create new pair
@@ -71,10 +71,10 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 				$pair = $checkingQueryKhac->fetch_assoc();				
 				$oldParticipant = $pair['p1'];
 				if ($conn->query("UPDATE `pairs` SET `p1` = '$oldParticipant', `p2` = '$userId' WHERE `id` = '{$pair['id']}'")) {
-				$bot->sendTextMessage($userId, "💌 Ghép thành công! Bắt đầu thả thính đi nào");
+				$bot->sendTextMessage($userId, "💌 Successfully paired with a female friend");
 				$conn->query("UPDATE `users` SET `state`='2', `joined_pair`={$pair['id']} WHERE `mess_id` = '$userId'");
 				$conn->query("UPDATE `users` SET `state`='2' WHERE `mess_id` = '$oldParticipant'");
-				$bot->sendTextMessage($oldParticipant, "💌 Ghép thành công! Bắt đầu thả thính đi nào");
+				$bot->sendTextMessage($oldParticipant, "💌 Successfully paired with a female friend");
 				} 		
 			}
 		}
