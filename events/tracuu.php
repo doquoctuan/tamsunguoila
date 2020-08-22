@@ -12,7 +12,7 @@ if($choice == "option_nam"){
 	]);
 			$bot->sendMessage($userId, $menu);
 } else if ($choice == "option_nu"){
-    $conn->query("UPDATE `users` SET `gender`= 0 WHERE `mess_id` = '$userId'");
+    $conn->query("UPDATE `users` SET `gender`= 0, `genpairs`= 1 WHERE `mess_id` = '$userId'");
     $firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
 			"event" => "static_menu",
 			"choice" => "show_menu"
