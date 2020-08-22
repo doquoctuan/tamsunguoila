@@ -11,28 +11,28 @@ if ($choice == "show_menu") {
 		"event" => "main_menu",
 		"choice" => "option_nu"
 		)));
-		$menu = $builder->createButtonTemplate("Chọn giới tính muốn ghép cặp", [
+		$menu = $builder->createButtonTemplate("Choose the gender you want to connect:", [
 		$firstButton,
 		$secondButton,
 	]);
 	$bot->sendMessage($userId, $menu);
 	} else if ($user['state'] == 1) {
 		// currently waiting for other participant
-		$firstButton = $builder->createButton("postback", "Thoát hàng đợi", json_encode(array(
+		$firstButton = $builder->createButton("postback", "Exit", json_encode(array(
 			"event" => "main_menu",
 			"choice" => "cancel_find_friend"
 		)));
-		$menu = $builder->createButtonTemplate("❗ Đang trong hàng đợi! Bạn có muốn thoát hàng đợi không?", [
+		$menu = $builder->createButtonTemplate("❗ Looking for the right gender, do you want to exit?", [
 		$firstButton,
 	]);
 			$bot->sendMessage($userId, $menu);
 	} else {
 		// currently in conversation
-		$firstButton = $builder->createButton("postback", "Thoát trò chuyện", json_encode(array(
+		$firstButton = $builder->createButton("postback", "Exit", json_encode(array(
 			"event" => "main_menu",
 			"choice" => "quit_conversation"
 		)));
-		$menu = $builder->createButtonTemplate("❗ Đang trong cuộc trò chuyện! Bạn có muốn thoát trò chuyện không?", [
+		$menu = $builder->createButtonTemplate("❗ During a chat, do you want to exit?", [
 		$firstButton,
 	]);
 	$bot->sendMessage($userId, $menu);
