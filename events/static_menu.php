@@ -38,7 +38,7 @@ if ($choice == "show_menu") {
 	$bot->sendMessage($userId, $menu);
 	}
 } else if ($choice == "tra_cuu") {
-		
+	$bot->sendTextMessage($userId, "🔎 Nhập lớp cần tra cứu");
 } else {
 	
 }
