@@ -118,10 +118,6 @@ if ($bot->isPostBack) {
 	// }
 }
 
-if($bot->getMessageText() == "Bắt đầu"){
-	bot->sendTextMessage($userId, "Nhập lớp cần tra cứu");
-}
-
 		// Tra cuu GVCN
 if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2 || strpos($bot->getMessageText(),"a")) && (strpos($bot->getMessageText(),"1") == 0)){
 	$tracuu = $bot->getMessageText();
