@@ -19,31 +19,31 @@ $user = array(
 	"state" => "0",
 	"joined_pair" => "0"
 );
-
-$checkUserQuery = $conn->query("SELECT * FROM `users` WHERE `mess_id` = '$userId'");
-if ($checkUserQuery->num_rows == 0) {
-	$userInfo = $bot->getUserData($userId);
-	$addUserQuery = $conn->query("INSERT INTO `users` (`name`, `mess_id`, `state`) VALUES ('{$userInfo['name']}', '$userId', '0')");
-	if ($addUserQuery) {
-		$firstButton = $builder->createButton("postback", "👨 Tôi là nam", json_encode(array(
-		"event" => "tracuu",
-		"choice" => "option_nam"
-		)));
-		$secondButton = $builder->createButton("postback", "👩 Tôi là nữ", json_encode(array(
-		"event" => "tracuu",
-		"choice" => "option_nu"
-		)));
-		$menu = $builder->createButtonTemplate("Chào mừng bạn đến với hệ thống Chat với người lạ của Nguyễn Du Confessions. Trước khi bắt đầu, hãy chọn giới tính của bạn.", [
-		$firstButton,
-		$secondButton,
-	]);
-	$bot->sendMessage($userId, $menu);
-	} else {
-		$bot->sendTextMessage($userId, "Hệ thống bận! Hãy thử lại sau");
-	}
-} else {
-	$user = $checkUserQuery->fetch_assoc();
-}
+$userInfo = $bot->getUserData($userId);
+// $checkUserQuery = $conn->query("SELECT * FROM `users` WHERE `mess_id` = '$userId'");
+// if ($checkUserQuery->num_rows == 0) {
+// 	$userInfo = $bot->getUserData($userId);
+// 	$addUserQuery = $conn->query("INSERT INTO `users` (`name`, `mess_id`, `state`) VALUES ('{$userInfo['name']}', '$userId', '0')");
+// 	if ($addUserQuery) {
+// 		$firstButton = $builder->createButton("postback", "👨 Tôi là nam", json_encode(array(
+// 		"event" => "tracuu",
+// 		"choice" => "option_nam"
+// 		)));
+// 		$secondButton = $builder->createButton("postback", "👩 Tôi là nữ", json_encode(array(
+// 		"event" => "tracuu",
+// 		"choice" => "option_nu"
+// 		)));
+// 		$menu = $builder->createButtonTemplate("Chào mừng bạn đến với hệ thống Chat với người lạ của Nguyễn Du Confessions. Trước khi bắt đầu, hãy chọn giới tính của bạn.", [
+// 		$firstButton,
+// 		$secondButton,
+// 	]);
+// 	$bot->sendMessage($userId, $menu);
+// 	} else {
+// 		$bot->sendTextMessage($userId, "Hệ thống bận! Hãy thử lại sau");
+// 	}
+// } else {
+// 	$user = $checkUserQuery->fetch_assoc();
+// }
 
 if ($bot->isPostBack) {
 	$payload = json_decode($bot->getPayload(), true);
@@ -51,81 +51,83 @@ if ($bot->isPostBack) {
 		include "./events/static_menu.php";
 	} else if ($payload['event'] == "main_menu") {
 		include "./events/main_menu.php";
-	} else {
+	} else if ($payload['event'] == "tracuu"){
 		include "./events/tracuu.php";
+	} else {
+		include "./events/gioitinh.php";
 	}
 } else {
-	if ($user['state'] == '2') {
-		$pairQuery = $conn->query("SELECT * FROM `pairs` WHERE `id` = {$user['joined_pair']}");
-		if ($pairQuery && $pairQuery->num_rows == 1) {
-			$pair = $pairQuery->fetch_assoc();
-			$otherParticipant = $pair['p1'] == $userId ? $pair['p2'] : $pair['p1'];		
-		}
-		if($bot->getMessageText() != 'End' && $bot->getMessageText() != 'end'){
-			$bot->sendTextMessage($otherParticipant, $bot->getMessageText());
-		} else {
-			$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
-			$bot->sendTextMessage($otherParticipant, "💔 Người lạ đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
-			$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
-			$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
-			$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
-		} 
-		// Tra cuu GVCN
-		if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2) && (strpos($bot->getMessageText(),"1") == 0)){
-		$tracuu = $bot->getMessageText();
-		$checkingQueryNam = $conn->query("SELECT * FROM `gvcn` WHERE `lop` = '$tracuu'");
-		if($checkingQueryNam->num_rows == 0){
-			$bot->sendTextMessage($userId, "Lớp tra cứu không tồn tại");
-		} else {
-			$pair = $checkingQueryNam->fetch_assoc();
-			$bot->sendTextMessage($userId, "Lớp " . $bot->getMessageText() . " - Giáo viên chủ nhiệm: ".$pair['gvcn']);
-		}
-		}
+	// if ($user['state'] == '2') {
+	// 	$pairQuery = $conn->query("SELECT * FROM `pairs` WHERE `id` = {$user['joined_pair']}");
+	// 	if ($pairQuery && $pairQuery->num_rows == 1) {
+	// 		$pair = $pairQuery->fetch_assoc();
+	// 		$otherParticipant = $pair['p1'] == $userId ? $pair['p2'] : $pair['p1'];		
+	// 	}
+	// 	if($bot->getMessageText() != 'End' && $bot->getMessageText() != 'end'){
+	// 		$bot->sendTextMessage($otherParticipant, $bot->getMessageText());
+	// 	} else {
+	// 		$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
+	// 		$bot->sendTextMessage($otherParticipant, "💔 Người lạ đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
+	// 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
+	// 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$otherParticipant'");
+	// 		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
+	// 	} 
+	// 	// Tra cuu GVCN
+	// 	if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2) && (strpos($bot->getMessageText(),"1") == 0)){
+	// 	$tracuu = $bot->getMessageText();
+	// 	$checkingQueryNam = $conn->query("SELECT * FROM `gvcn` WHERE `lop` = '$tracuu'");
+	// 	if($checkingQueryNam->num_rows == 0){
+	// 		$bot->sendTextMessage($userId, "Lớp tra cứu không tồn tại");
+	// 	} else {
+	// 		$pair = $checkingQueryNam->fetch_assoc();
+	// 		$bot->sendTextMessage($userId, "Lớp " . $bot->getMessageText() . " - Giáo viên chủ nhiệm: ".$pair['gvcn']);
+	// 	}
+	// 	}
 
-	} else if ($user['state'] == '1'){
-		if($bot->getMessageText() != 'End' && $bot->getMessageText() != 'end'){
-			$bot->sendTextMessage($userId, "❗ Bạn đang trong hàng chờ tìm kiếm, vui lòng đợi. Gõ 'End' để thoát hàng chờ.");	
-		} else {
-			$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
-			$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
-			$bot->sendTextMessage($userId, "💔 Bạn đã thoát hàng chờ. Gõ 'tâm sự' để bắt đầu ghép cặp.");
-		}	
-	} else {
-		if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự'){
-			$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
-			"event" => "static_menu",
-			"choice" => "show_menu"
-		)));
-		$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút bên dưới để ghép cặp", [
-		$firstButton,
-			]);
-		$bot->sendMessage($userId, $menu);
-		}
+	// } else if ($user['state'] == '1'){
+	// 	if($bot->getMessageText() != 'End' && $bot->getMessageText() != 'end'){
+	// 		$bot->sendTextMessage($userId, "❗ Bạn đang trong hàng chờ tìm kiếm, vui lòng đợi. Gõ 'End' để thoát hàng chờ.");	
+	// 	} else {
+	// 		$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
+	// 		$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
+	// 		$bot->sendTextMessage($userId, "💔 Bạn đã thoát hàng chờ. Gõ 'tâm sự' để bắt đầu ghép cặp.");
+	// 	}	
+	// } else {
+	// 	if($bot->getMessageText() == 'Tâm sự' || $bot->getMessageText() == 'tâm sự'){
+	// 		$firstButton = $builder->createButton("postback", "Tâm sự người lạ", json_encode(array(
+	// 		"event" => "static_menu",
+	// 		"choice" => "show_menu"
+	// 	)));
+	// 	$menu = $builder->createButtonTemplate("Welcome to Nguyễn Du Confessions! Nhấn vào nút bên dưới để ghép cặp", [
+	// 	$firstButton,
+	// 		]);
+	// 	$bot->sendMessage($userId, $menu);
+	// 	}
 
-		// Tra cuu GVCN
-		if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2) && (strpos($bot->getMessageText(),"1") == 0)){
-		$tracuu = $bot->getMessageText();
-		$checkingQueryNam = $conn->query("SELECT * FROM `gvcn` WHERE `lop` = '$tracuu'");
-		if($checkingQueryNam->num_rows == 0){
-			$bot->sendTextMessage($userId, "Lớp tra cứu không tồn tại");
-		} else {
-			$pair = $checkingQueryNam->fetch_assoc();
-			$bot->sendTextMessage($userId, "Lớp " . $bot->getMessageText() . " - Giáo viên chủ nhiệm: ".$pair['gvcn']);
-		}
-		}
-	}
+	// 	// Tra cuu GVCN
+	// 	if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2) && (strpos($bot->getMessageText(),"1") == 0)){
+	// 	$tracuu = $bot->getMessageText();
+	// 	$checkingQueryNam = $conn->query("SELECT * FROM `gvcn` WHERE `lop` = '$tracuu'");
+	// 	if($checkingQueryNam->num_rows == 0){
+	// 		$bot->sendTextMessage($userId, "Lớp tra cứu không tồn tại");
+	// 	} else {
+	// 		$pair = $checkingQueryNam->fetch_assoc();
+	// 		$bot->sendTextMessage($userId, "Lớp " . $bot->getMessageText() . " - Giáo viên chủ nhiệm: ".$pair['gvcn']);
+	// 	}
+	// 	}
+	// }
 }
 
-// Tra cuu GVCN
-if($user['state'] == '0' || $user['state'] == '2'){
-	$choice = $payload['choice'];
-	if($choice == "tra_cuu"){
-		$bot->sendTextMessage($userId, "🔎 Nhập lớp cần tra cứu");
+		// Tra cuu GVCN
+if((strlen($bot->getMessageText()) < 6) && (strpos($bot->getMessageText(),"A") == 2 || strpos($bot->getMessageText(),"a")) && (strpos($bot->getMessageText(),"1") == 0)){
+	$tracuu = $bot->getMessageText();
+	$checkingQueryNam = $conn->query("SELECT * FROM `gvcn` WHERE `lop` = '$tracuu'");
+	if($checkingQueryNam->num_rows == 0){
+	$bot->sendTextMessage($userId, "Lớp ". $bot->getMessageText() ." \nGVCN: ".$userInfo['name']);
+	} else {
+	$pair = $checkingQueryNam->fetch_assoc();
+	$bot->sendTextMessage($userId, "Lớp " . $bot->getMessageText() . "\nGVCN: ".$pair['gvcn']);
 	}
-} else if ($user['state'] == '1' && $bot->isPostBack){
-	$bot->sendTextMessage($userId, "❗ Bạn đang trong hàng chờ tìm kiếm, vui lòng đợi. Gõ 'End' để thoát hàng chờ.");
-} else {
-
 }
 
 ?>
