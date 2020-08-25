@@ -1,12 +1,6 @@
 <?php
 $choice = $payload['choice'];
-if($choice == "option_nam"){
-	$conn->query("UPDATE `users` SET `genpairs`= 1 WHERE `mess_id` = '$userId'");
-} else if ($choice == "option_nu"){
-	$conn->query("UPDATE `users` SET `genpairs`= 0 WHERE `mess_id` = '$userId'");
-} else {
-	
-}
+
 if($choice == "cancel_find_friend" ){
 	$bot->sendTextMessage($userId, "💔 Bạn đã rời khỏi cuộc trò chuyện. Gõ 'tâm sự' để bắt đầu ghép cặp.");
 	$conn->query("UPDATE `users` SET `state`='0', `joined_pair`='0' WHERE `mess_id` = '$userId'");
@@ -24,7 +18,6 @@ if($choice == "cancel_find_friend" ){
 	$conn->query("DELETE FROM `pairs` WHERE `p1` = '$userId' AND `p2` = ''");
 } else if ($choice == "option_nam" || $choice == "option_nu"){
 	if($user['gender'] == $user['genpairs']){
-		$bot->sendTextMessage($userId, "🕹 Đang tìm giới tính giống bạn!");
 		$checkingQueryNam = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
 AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
 		if(!$checkingQueryNam){
@@ -51,7 +44,7 @@ AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
 				} 		
 			}
 		}
-	} else {
+	} else if ($user['gender'] != $user['genpairs']) {
 		$checkingQueryKhac = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
 AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 		if(!$checkingQueryKhac){
@@ -78,10 +71,11 @@ AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
 				} 		
 			}
 		}
+	} else {
+		$bot->sendTextMessage($userId, "Nhanh quá!");
 	}
 	
 } else {
-	
+	$bot->sendTextMessage($userId, "Test!");
 }	
-
 ?>

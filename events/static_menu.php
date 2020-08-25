@@ -4,11 +4,11 @@ if ($choice == "show_menu") {
 	if ($user['state'] == 0) {
 		// currently have no action
 				$firstButton = $builder->createButton("postback", "👨 Nam", json_encode(array(
-		"event" => "main_menu",
+		"event" => "gioitinh",
 		"choice" => "option_nam"
 		)));
 		$secondButton = $builder->createButton("postback", "👩 Nữ", json_encode(array(
-		"event" => "main_menu",
+		"event" => "gioitinh",
 		"choice" => "option_nu"
 		)));
 		$menu = $builder->createButtonTemplate("Chọn giới tính muốn ghép cặp", [
@@ -38,7 +38,7 @@ if ($choice == "show_menu") {
 	$bot->sendMessage($userId, $menu);
 	}
 } else if ($choice == "tra_cuu") {
-	$bot->sendTextMessage($userId, "🔎 Nhập lớp cần tra cứu");
+		$bot->sendTextMessage($userId, "🔎 Nhập lớp cần tra cứu");
 } else {
 	
 }
