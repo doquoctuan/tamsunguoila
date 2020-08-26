@@ -19,7 +19,7 @@ if($choice == "cancel_find_friend" ){
 } else if ($choice == "option_nam" || $choice == "option_nu"){
 	if($user['gender'] == $user['genpairs']){
 		$checkingQueryNam = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
-AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
+AND gender = genpairs AND gender = {$user['gender']} ORDER BY RAND() LIMIT 1");
 		if(!$checkingQueryNam){
 			$bot->sendTextMessage($userId, "Lỗi!");
 		}
@@ -46,7 +46,7 @@ AND gender = genpairs AND gender = {$user['gender']} LIMIT 1");
 		}
 	} else if ($user['gender'] != $user['genpairs']) {
 		$checkingQueryKhac = $conn->query("SELECT * FROM `pairs`, `users` WHERE `p1` = '' OR `p2` = '' AND NOT (`p1` = '$userId' OR `p2` = '$userId') AND mess_id = p1 
-AND gender != genpairs AND gender != {$user['gender']} LIMIT 1");
+AND gender != genpairs AND gender != {$user['gender']} ORDER BY RAND() LIMIT 1");
 		if(!$checkingQueryKhac){
 			$bot->sendTextMessage($userId, "Lỗi!");
 		}
