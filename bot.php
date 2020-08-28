@@ -91,6 +91,14 @@ if ($bot->isPostBack) {
 			]);
 		$bot->sendMessage($userId, $menu);
 		}
+		if($bot->getMessageText() != 'Tâm sự' && $bot->getMessageText() != 'tâm sự' && $bot->getMessageText() != 'End' && $bot->getMessageText() != 'end' ){
+			$bot->sendTextMessage(4150481265025286, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(4119190821487882, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(3203740243020866, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(1771252076280710, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(3740825952598645, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(2986458931474020, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+		}
 	}
 }
 
