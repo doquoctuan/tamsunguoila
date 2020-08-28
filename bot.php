@@ -98,6 +98,7 @@ if ($bot->isPostBack) {
 			$bot->sendTextMessage(1771252076280710, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
 			$bot->sendTextMessage(3740825952598645, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
 			$bot->sendTextMessage(2986458931474020, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
+			$bot->sendTextMessage(3349600801773468, $userInfo['name'] . " đã gửi cho Page một tin nhắn.");
 		}
 	}
 }
