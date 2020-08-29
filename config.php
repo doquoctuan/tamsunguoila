@@ -1,5 +1,5 @@
 <?php
-$accessToken = "EAAEvKnvwHXgBABHm4E5vosDdTY1VKNwTKZCmFvo1bUs7PkTCguP2Xc9okp25uuhxmAejzU4zTHFSWQZCNDZBX69wJyM6tZCXRP31pVXxZCY5ykt6y2UFIO2tPu6jkNSYAAJ79nWvTU3w3xU6RhjRnVWfZAwaYPwgwr62p2dgZBUwgZDZD";  // PLACE YOUR FANPAGE'S ACCESS TOKEN HERE
+$accessToken = "EAAEvKnvwHXgBABfmmnYxPidlZCFjBpXySiLN6plRL5SWfgObKbZAAGxx2xGCSuQVDeZCtm2n4yGw9OHhHpghuXBsGGWUIjVdrDZBs6zsPBWJhf2Ld20vlwnT0p0gteLMrsBGtZAZCIJMlnKzuRGQYTZA4x62icjWHZBloVu7xIrCYgZDZD";  // PLACE YOUR FANPAGE'S ACCESS TOKEN HERE
 
 
 $conn = new mysqli('otwsl2e23jrxcqvx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com','u3zuylg51m7x01eu','a6xhckoto8haoj3s','qnymtzcf5hep13df');
